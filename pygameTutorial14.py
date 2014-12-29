@@ -13,7 +13,8 @@ display_height = 600
 block_size = 10
 fps = 15
 
-font = pygame.font.SysFont(None, 25)
+#font = pygame.font.SysFont(None, 25)
+font = pygame.font.Font(None, 20)
 
 def message_to_screen(msg, color):
     screen_text = font.render(msg, True, color)
