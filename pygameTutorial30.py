@@ -14,6 +14,8 @@ display_width = 800
 display_height = 600
 block_size = 20
 fps = 10
+AppleThickness = 30
+
 direction = "right"
 
 font = pygame.font.SysFont(None, 25)
@@ -27,7 +29,7 @@ pygame.display.set_caption('Slither')
 # update the entire surface
 pygame.display.flip()
 
-
+# drawing the snake
 def snake(block_size, snakelist):
     if direction == "right":
         head = pygame.transform.rotate(img, 270)
@@ -47,19 +49,19 @@ def snake(block_size, snakelist):
     for XnY in snakelist[:-1]:
         pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
 
+# creating a text object for display
 def text_objects(text, color):
     textSurface = font.render(text, True, color)
     return textSurface, textSurface.get_rect()
 
+# displaying the text object
 def message_to_screen(msg, color):
     textSurf,textRect = text_objects(msg,color)
-    #screen_text = font.render(msg, True, color)
-    #gameDisplay.blit(screen_text, [display_width/2 - (len (msg) / 2 * 8), display_height/2])
     textRect.center = (display_width/2), (display_height/2)
     gameDisplay.blit(textSurf, textRect)
     pygame.display.update()
 
-
+# main game loop
 def gameLoop():
     global direction
     gameExit = False
@@ -74,7 +76,7 @@ def gameLoop():
     snakeList = []
     snakeLength = 1
     
-    
+    # generate random co-ords for the "apple" target
     randAppleX = round(random.randrange(0, display_width - block_size)) #/ 10.0) * 10.0
     randAppleY = round(random.randrange(0, display_height - block_size)) #/ 10.0) * 10.0
     
@@ -125,25 +127,15 @@ def gameLoop():
                     lead_y_change = block_size
                     lead_x_change = 0
                     direction = "down"
-                    
-    #        if event.type == pygame.KEYUP:
-    #            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-    #                lead_x_change = 0
         
         if lead_x >= display_width or lead_x <= 0 or lead_y >= display_height or lead_y <= 0:
             print "You have left the game screen - the game is over!"
             gameOver = True
-            
-        
-                    
                     
         lead_x += lead_x_change
         lead_y += lead_y_change  
-        
-        
               
         gameDisplay.fill(white)
-        AppleThickness = 30
         pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, AppleThickness, AppleThickness])
 
         snakeHead = []
