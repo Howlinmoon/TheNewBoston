@@ -13,10 +13,13 @@ black = (0,0,0)
 display_width = 800
 display_height = 600
 block_size = 20
-fps = 16
+fps = 10
+direction = "right"
 
 font = pygame.font.SysFont(None, 25)
 #font = pygame.font.Font(None, 25)
+
+img = pygame.image.load('SnakeHeadUp.png')
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Slither')
@@ -26,7 +29,22 @@ pygame.display.flip()
 
 
 def snake(block_size, snakelist):
-    for XnY in snakelist:
+    if direction == "right":
+        head = pygame.transform.rotate(img, 270)
+
+    if direction == "left":
+        head = pygame.transform.rotate(img, 90)
+
+    if direction == "up":
+        head = img
+
+    if direction == "down":
+        head = pygame.transform.rotate(img, 180)
+
+    
+    gameDisplay.blit(head, (snakelist[-1][0], snakelist[-1][1]))
+    
+    for XnY in snakelist[:-1]:
         pygame.draw.rect(gameDisplay, green, [XnY[0],XnY[1],block_size,block_size])
 
 def text_objects(text, color):
@@ -43,14 +61,14 @@ def message_to_screen(msg, color):
 
 
 def gameLoop():
-    
+    global direction
     gameExit = False
     gameOver = False
     
     lead_x = display_width / 2
     lead_y = display_height / 2
     
-    lead_x_change = 0
+    lead_x_change = 10
     lead_y_change = 0
 
     snakeList = []
@@ -91,19 +109,23 @@ def gameLoop():
                 if event.key == pygame.K_LEFT:
                     lead_x_change = -block_size
                     lead_y_change = 0
+                    direction = "left"
                     
                 elif event.key == pygame.K_RIGHT:
                     lead_x_change = block_size
                     lead_y_change = 0
+                    direction = "right"
                     
                 elif event.key == pygame.K_UP:
                     lead_y_change = -block_size
                     lead_x_change = 0
+                    direction = "up"
                     
                 elif event.key == pygame.K_DOWN:
                     lead_y_change = block_size
                     lead_x_change = 0
-            
+                    direction = "down"
+                    
     #        if event.type == pygame.KEYUP:
     #            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
     #                lead_x_change = 0
