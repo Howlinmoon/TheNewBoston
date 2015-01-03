@@ -14,6 +14,15 @@ gameDisplay.fill(blue)
 Pix = pygame.PixelArray(gameDisplay)
 Pix[10,10] = green
 
+pygame.draw.line(gameDisplay, red, (200,300), (500,500), 5)
+
+pygame.draw.circle(gameDisplay, red, (125,125), 50)
+
+pygame.draw.rect(gameDisplay, green, (150,150,200,100))
+
+pygame.draw.polygon(gameDisplay, white, ( (140,5), (200,16), (80,333), (600,222), (500,222)))
+
+
 
 while True:
     for event in pygame.event.get():
