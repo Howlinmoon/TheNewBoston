@@ -37,6 +37,8 @@ pygame.display.set_caption('Tanks')
 # update the entire surface
 pygame.display.flip()
 
+
+
 # pause the game
 def pause():
     paused = True
@@ -68,11 +70,27 @@ def score(score):
     text = smallfont.render("Score: "+str(score), True, black)
     gameDisplay.blit(text, [0,0])
 
+# creating a text object for display
+def text_objects(text, color, size):
+    if size == "small":
+        textSurface = smallfont.render(text, True, color)
+    elif size == "medium":
+        textSurface = medfont.render(text, True, color)
+    elif size == "large":
+        textSurface = largefont.render(text, True, color)
+        
+    return textSurface, textSurface.get_rect()
 
-def randAppleGen():
-    randAppleX = round(random.randrange(0, display_width - AppleThickness)) #/ 10.0) * 10.0
-    randAppleY = round(random.randrange(0, display_height - AppleThickness)) #/ 10.0) * 10.0
-    return randAppleX,randAppleY
+
+def text_to_button (msg, color, buttonx, buttony, buttonwidth, buttonheight, size = "small"):
+    textSurf,textRect = text_objects(msg, color, size)
+    textRect.center = (buttonx + (buttonwidth / 2), buttony + (buttonheight/2))
+
+# displaying the text object
+def message_to_screen(msg, color, y_displace=0, size = "small"):
+    textSurf,textRect = text_objects(msg,color, size)
+    textRect.center = (display_width/2), (display_height/2)+y_displace
+    gameDisplay.blit(textSurf, textRect)
 
 
 # every good game needs a title screen!
@@ -102,27 +120,11 @@ def game_intro():
         pygame.draw.rect(gameDisplay, yellow, (350,500, 100, 50))
         pygame.draw.rect(gameDisplay, red, (550,500, 100, 50))
         
+        text_to_button("Play", black, 150,500, 100, 50)
         
         pygame.display.update()
         clock.tick(15)
 
-
-# creating a text object for display
-def text_objects(text, color, size):
-    if size == "small":
-        textSurface = smallfont.render(text, True, color)
-    elif size == "medium":
-        textSurface = medfont.render(text, True, color)
-    elif size == "large":
-        textSurface = largefont.render(text, True, color)
-        
-    return textSurface, textSurface.get_rect()
-
-# displaying the text object
-def message_to_screen(msg, color, y_displace=0, size = "small"):
-    textSurf,textRect = text_objects(msg,color, size)
-    textRect.center = (display_width/2), (display_height/2)+y_displace
-    gameDisplay.blit(textSurf, textRect)
 
 # main game loop
 def gameLoop():
