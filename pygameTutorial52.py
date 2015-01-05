@@ -102,6 +102,33 @@ def message_to_screen(msg, color, y_displace=0, size = "small"):
     textRect.center = (display_width/2), (display_height/2)+y_displace
     gameDisplay.blit(textSurf, textRect)
 
+# Display a controls help screen
+def game_controls():
+    gcont = True
+    while gcont:
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                    
+        gameDisplay.fill(white)
+        message_to_screen("Controls",green,-100,"large")
+        message_to_screen("Fire: Spacebar",black,-30,"small")
+        message_to_screen("Move Turret: Up and Down arrows",black,10,"small")
+        message_to_screen("Move Tank: Left and Right arrows",black,50,"small")
+        message_to_screen("Pause: P",black,110,"small")
+
+        
+        button("Play", 150,500, 100, 50, green, light_green, action = "play")
+        button("Intro", 350,500, 100, 50, yellow, light_yellow, action = "intro")
+        button("Quit", 550,500, 100, 50, red, light_red, action = "quit")
+        
+        pygame.display.update()
+        clock.tick(15)
+
+
+
 # Button Handling
 def button (text, x, y, width, height, inactive_color, active_color, action = None):
     mousePointer = pygame.mouse.get_pos()
@@ -115,10 +142,13 @@ def button (text, x, y, width, height, inactive_color, active_color, action = No
                 quit()
                 
             elif action == "controls":
-                print "controls stuff goes here later"
+                game_controls()
             
             elif action == "play":
                 gameLoop()
+            
+            elif action == "intro":
+                game_intro()
                 
         pygame.draw.rect(gameDisplay, active_color, (x, y, width, height))
     else:
