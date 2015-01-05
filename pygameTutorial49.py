@@ -5,12 +5,18 @@ import random
 pygame.init()
 
 white = (255,255,255)
-red = (255,0,0)
+red = (200,0,0)
+light_red = (255,0,0)
+
 green = (34,177,76)
+light_green = (0,255,0)
+
 blue = (0,0.255)
 black = (0,0,0)
+
 yellow = (200,200,0)
-light_green = (0,255,0)
+light_yellow = (255,255,0)
+
 
 
 
@@ -96,6 +102,16 @@ def message_to_screen(msg, color, y_displace=0, size = "small"):
     textRect.center = (display_width/2), (display_height/2)+y_displace
     gameDisplay.blit(textSurf, textRect)
 
+def button (text, x, y, width, height, inactive_color, active_color):
+    mousePointer = pygame.mouse.get_pos()
+    
+    if x+width > mousePointer[0] > x and y+height > mousePointer[1] > y:
+        pygame.draw.rect(gameDisplay, active_color, (x, y, width, height))
+    else:
+        pygame.draw.rect(gameDisplay, inactive_color, (x, y, width, height))
+
+    text_to_button(text, black, x, y, width, height)
+        
 
 # every good game needs a title screen!
 def game_intro():
@@ -116,23 +132,14 @@ def game_intro():
         gameDisplay.fill(white)
         message_to_screen("Welcome to Tanks",green,-100,"large")
         message_to_screen("The objective is to shoot and destroy",black,-30,"small")
-        message_to_screen("the enemy tank before they destroy you.",black,10,"small")
+        message_to_screen("the enemy tanks before they destroy you.",black,10,"small")
         message_to_screen("The more tanks you destroy, the harder they get.",black,50,"small")
         #message_to_screen("Press C to play, P to pause or Q to quit.",black,180,"small")
 
-        mousePointer = pygame.mouse.get_pos()
         
-        if 150+100 > mousePointer[0] > 150 and 500+50 > mousePointer[1] > 500:
-            pygame.draw.rect(gameDisplay, light_green, (150,500, 100, 50))
-        else:
-            pygame.draw.rect(gameDisplay, green, (150,500, 100, 50))
-            
-        pygame.draw.rect(gameDisplay, yellow, (350,500, 100, 50))
-        pygame.draw.rect(gameDisplay, red, (550,500, 100, 50))
-        
-        text_to_button("Play", black, 150,500, 100, 50)
-        text_to_button("Controls", black, 350,500, 100, 50)
-        text_to_button("Quit", black, 550,500, 100, 50)
+        button("Play", 150,500, 100, 50, green, light_green)
+        button("Controls", 350,500, 100, 50, yellow, light_yellow)
+        button("Quit", 550,500, 100, 50, red, light_red)
         
         pygame.display.update()
         clock.tick(15)
