@@ -264,7 +264,10 @@ def gameLoop():
                 
                 elif event.key == pygame.K_p:
                     pause()
-        
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    tankMove = 0
+                    
         gameDisplay.fill(white)
         mainTankX += tankMove
         tank(mainTankX, mainTankY)

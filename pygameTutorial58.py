@@ -114,12 +114,25 @@ def tank(x,y):
     # ensure our parameters are ints
     x = int(x)
     y = int(y)
+    
+    possibleTurrets = [(x-27, y -2),
+                       (x-26, y-5),
+                       (x-25, y-8),
+                       (x-23, y-12),
+                       (x-20, y-14),
+                       (x-18, y-15),
+                       (x-15, y-17),
+                       (x-13, y-19),
+                       (x-11, y-21)
+                       ]
+    
     pygame.draw.circle(gameDisplay, black, (x,y), int(tankHeight/2))
     pygame.draw.rect(gameDisplay, black, (x-tankHeight, y, tankWidth, tankHeight) )
     
     # turret
     pygame.draw.line(gameDisplay, black, (x,y), (x-10, y-20), turretWidth)
     
+    # draw some red wheels
     startX = 15
     for number in range(7):
         pygame.draw.circle(gameDisplay, red, (x-startX, y+20), wheelWidth)
@@ -264,7 +277,10 @@ def gameLoop():
                 
                 elif event.key == pygame.K_p:
                     pause()
-        
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    tankMove = 0
+                    
         gameDisplay.fill(white)
         mainTankX += tankMove
         tank(mainTankX, mainTankY)
