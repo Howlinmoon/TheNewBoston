@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #68
+# Pygame Tutorial #69
 
 pygame.init()
 
@@ -202,8 +202,9 @@ def barrier(xlocation, randomHeight, barrier_width):
     
     pygame.draw.rect(gameDisplay, black, [xlocation, display_height - randomHeight, barrier_width, randomHeight])
 
+
 # Fire the tank shell
-def fireShell(xy,tankx,tanky,turPos):
+def fireShell(xy,tankx,tanky,turPos, gun_power):
     print "firing gun from x,y",xy
     fire = True
     
@@ -214,17 +215,22 @@ def fireShell(xy,tankx,tanky,turPos):
                 pygame.quit()
                 quit()
         print (startingShell[0], startingShell[1])
-        pygame.draw.circle(gameDisplay, red, (startingShell[0], startingShell[1]), 5 )
+        pygame.draw.circle(gameDisplay, green, (startingShell[0], startingShell[1]), 5 )
         
         startingShell[0] -= (12 - turPos)*2
         
         if startingShell[1] > display_height:
             fire = False
             
-        startingShell[1] += int((((startingShell[0] - xy[0]) * 0.015)**2) - (turPos+turPos/(12 - turPos)))
+        print "gun_power = ",gun_power
+            
+        startingShell[1] += int((((startingShell[0] - xy[0]) * 0.015/(gun_power/50.0))**2) - (turPos+turPos/(12 - turPos)))
         
         pygame.display.update()
         clock.tick(50)
+
+
+
 
 def power(level):
     text = smallfont.render("Power: "+str(level)+"%", True, black)
@@ -325,7 +331,7 @@ def gameLoop():
                 elif event.key == pygame.K_p:
                     pause()
                 elif event.key == pygame.K_SPACE:
-                    fireShell(gun,mainTankX,mainTankY,currentTurPos)
+                    fireShell(gun,mainTankX,mainTankY,currentTurPos,fire_power)
                     
                 elif event.key == pygame.K_a:
                     power_change = -1
