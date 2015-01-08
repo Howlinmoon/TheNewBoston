@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #65
+# Pygame Tutorial #66
 
 pygame.init()
 
@@ -197,19 +197,29 @@ def button (text, x, y, width, height, inactive_color, active_color, action = No
     text_to_button(text, black, x, y, width, height)
 
 
-
+# Draw a barrier
 def barrier(xlocation, randomHeight, barrier_width):
     
     pygame.draw.rect(gameDisplay, black, [xlocation, display_height - randomHeight, barrier_width, randomHeight])
 
-def fireShell(xy):
+# Fire the tank shell
+def fireShell(xy,tankx,tanky,turPos):
     print "firing gun from x,y",xy
     fire = True
     
-    startingShell = xy
+    startingShell = list(xy)
     while fire:
-        fire = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        print (startingShell[0], startingShell[1])
+        pygame.draw.circle(gameDisplay, red, (startingShell[0], startingShell[1]), 5 )
         
+        startingShell[0] -= 5
+        
+        pygame.display.update()
+        clock.tick(5)
 
 # every good game needs a title screen!
 def game_intro():
@@ -302,7 +312,7 @@ def gameLoop():
                 elif event.key == pygame.K_p:
                     pause()
                 elif event.key == pygame.K_SPACE:
-                    fireShell(gun)
+                    fireShell(gun,mainTankX,mainTankY,currentTurPos)
                     
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
