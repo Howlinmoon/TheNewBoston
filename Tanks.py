@@ -1,8 +1,8 @@
-import pygame
 import time
+import pygame
 import random
 
-# Pygame Tutorial #64
+# Pygame Tutorial #65
 
 pygame.init()
 
@@ -139,7 +139,8 @@ def tank(x,y,turPos):
     for number in range(7):
         pygame.draw.circle(gameDisplay, red, (x-startX, y+20), wheelWidth)
         startX -= 5
-        
+    
+    return possibleTurrets[turPos]
 
 # Display a controls help screen
 def game_controls():
@@ -201,7 +202,13 @@ def barrier(xlocation, randomHeight, barrier_width):
     
     pygame.draw.rect(gameDisplay, black, [xlocation, display_height - randomHeight, barrier_width, randomHeight])
 
-
+def fireShell(xy):
+    print "firing gun from x,y",xy
+    fire = True
+    
+    startingShell = xy
+    while fire:
+        fire = False
         
 
 # every good game needs a title screen!
@@ -251,7 +258,9 @@ def gameLoop():
     randomHeight = random.randrange(display_height * 0.1, display_height * 0.6)
 
     while not gameExit:
-        
+        gameDisplay.fill(white)
+        gun = tank(mainTankX, mainTankY, currentTurPos)
+
         if gameOver == True:
             message_to_screen("Game Over", red, -50, size = "large")
             message_to_screen("Press C to play again, or Q to quit", black, 50, size = "medium")
@@ -292,13 +301,15 @@ def gameLoop():
                 
                 elif event.key == pygame.K_p:
                     pause()
+                elif event.key == pygame.K_SPACE:
+                    fireShell(gun)
+                    
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     tankMove = 0
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     changeTur = 0
                     
-        gameDisplay.fill(white)
         mainTankX += tankMove
         currentTurPos += changeTur
         # my version of out of bounds handling
@@ -311,7 +322,6 @@ def gameLoop():
             mainTankX += 5
         
         barrier(xlocation, randomHeight, barrier_width)
-        tank(mainTankX, mainTankY, currentTurPos)
         
         
         pygame.display.update()
