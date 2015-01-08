@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #67
+# Pygame Tutorial #68
 
 pygame.init()
 
@@ -226,6 +226,11 @@ def fireShell(xy,tankx,tanky,turPos):
         pygame.display.update()
         clock.tick(50)
 
+def power(level):
+    text = smallfont.render("Power: "+str(level)+"%", True, black)
+    gameDisplay.blit(text, [display_width/2,0])
+
+
 # every good game needs a title screen!
 def game_intro():
     intro = True
@@ -269,6 +274,9 @@ def gameLoop():
     tankMove = 0
     currentTurPos = 0
     changeTur = 0
+    fire_power = 50
+    power_change = 0
+    
     xlocation = (display_width/2) + random.randint(-0.2*display_width, 0.2*display_width)
     randomHeight = random.randrange(display_height * 0.1, display_height * 0.6)
 
@@ -319,11 +327,19 @@ def gameLoop():
                 elif event.key == pygame.K_SPACE:
                     fireShell(gun,mainTankX,mainTankY,currentTurPos)
                     
+                elif event.key == pygame.K_a:
+                    power_change = -1
+                
+                elif event.key == pygame.K_d:
+                    power_change = 1
+                    
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     tankMove = 0
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     changeTur = 0
+                if event.key == pygame.K_a or event.key == pygame.K_d:
+                    power_change = 0
                     
         mainTankX += tankMove
         currentTurPos += changeTur
@@ -335,6 +351,15 @@ def gameLoop():
             
         if mainTankX - (tankWidth/2) < xlocation + barrier_width:
             mainTankX += 5
+        
+        fire_power += power_change
+        # ensure we stay within 1-100
+        if fire_power < 1:
+            fire_power = 1
+        elif fire_power > 100:
+            fire_power = 100
+            
+        power(fire_power)
         
         barrier(xlocation, randomHeight, barrier_width)
         
