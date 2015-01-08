@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #69
+# Pygame Tutorial #70
 
 pygame.init()
 
@@ -220,6 +220,11 @@ def fireShell(xy,tankx,tanky,turPos, gun_power):
         startingShell[0] -= (12 - turPos)*2
         
         if startingShell[1] > display_height:
+            print("Last shell: ", startingShell[0], startingShell[1])
+            hit_x = int((startingShell[0] * display_height)/(startingShell[1]))
+            hit_y = int(display_height)
+            
+            print("Impact: ",hit_x,hit_y)
             fire = False
             
         print "gun_power = ",gun_power
