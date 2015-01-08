@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #66
+# Pygame Tutorial #67
 
 pygame.init()
 
@@ -216,10 +216,15 @@ def fireShell(xy,tankx,tanky,turPos):
         print (startingShell[0], startingShell[1])
         pygame.draw.circle(gameDisplay, red, (startingShell[0], startingShell[1]), 5 )
         
-        startingShell[0] -= 5
+        startingShell[0] -= (12 - turPos)*2
+        
+        if startingShell[1] > display_height:
+            fire = False
+            
+        startingShell[1] += int((((startingShell[0] - xy[0]) * 0.015)**2) - (turPos+turPos/(12 - turPos)))
         
         pygame.display.update()
-        clock.tick(5)
+        clock.tick(50)
 
 # every good game needs a title screen!
 def game_intro():
