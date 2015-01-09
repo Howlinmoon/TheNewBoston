@@ -1,5 +1,7 @@
 import pygame
 import time
+import random
+
 pygame.init()
 
 white = (255,255,255)
@@ -22,7 +24,7 @@ pygame.display.flip()
 
 def message_to_screen(msg, color):
     screen_text = font.render(msg, True, color)
-    gameDisplay.blit(screen_text, [display_width/2, display_height/2])
+    gameDisplay.blit(screen_text, [display_width/2 - (len (msg) / 2 * 8), display_height/2])
     pygame.display.update()
 
 
@@ -36,6 +38,10 @@ def gameLoop():
     
     lead_x_change = 0
     lead_y_change = 0
+    
+    randAppleX = random.randrange(0, display_width - block_size)
+    randAppleY = random.randrange(0, display_height - block_size)
+    
     clock = pygame.time.Clock()
 
     while not gameExit:
@@ -88,6 +94,7 @@ def gameLoop():
         lead_x += lead_x_change
         lead_y += lead_y_change        
         gameDisplay.fill(white)
+        pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, block_size, block_size])
         pygame.draw.rect(gameDisplay, black, [lead_x,lead_y,block_size,block_size])
         pygame.display.update()
         
