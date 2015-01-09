@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #78
+# Pygame Tutorial #79
 
 pygame.init()
 
@@ -404,11 +404,10 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
         clock.tick(60)
     return damage
 
-
+# Display the user's current power level setting
 def power(level):
     text = smallfont.render("Power: "+str(level)+"%", True, black)
     gameDisplay.blit(text, [display_width/2,0])
-
 
 # every good game needs a title screen!
 def game_intro():
@@ -434,6 +433,35 @@ def game_intro():
 
         
         button("Play", 150,500, 100, 50, green, light_green, action = "play")
+        button("Controls", 350,500, 100, 50, yellow, light_yellow, action = "controls")
+        button("Quit", 550,500, 100, 50, red, light_red, action = "quit")
+        
+        pygame.display.update()
+        clock.tick(15)
+
+
+
+
+# all good things must come to an end
+def game_over(winOrLose):
+    game_over = True
+    while game_over:
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                    
+        gameDisplay.fill(white)
+        if winOrLose == "lose":
+            message_to_screen("Game Over",green,-100,"large")
+            message_to_screen("You Lost!",black,-30,"small")
+        else:
+            message_to_screen("Game Over",green,-100,"large")
+            message_to_screen("You Won!",black,-30,"small")
+            
+        
+        button("Play Again", 150,500, 150, 50, green, light_green, action = "play")
         button("Controls", 350,500, 100, 50, yellow, light_yellow, action = "controls")
         button("Quit", 550,500, 100, 50, red, light_red, action = "quit")
         
@@ -583,6 +611,15 @@ def gameLoop():
         gameDisplay.fill(green, rect = [0, display_height-ground_height, display_width, ground_height])
         
         pygame.display.update()
+        
+        
+                
+        if player_health < 1:
+            game_over("lose")
+            
+        if enemy_health < 1:
+            game_over("win")
+        
         clock.tick(FPS)
         
         
