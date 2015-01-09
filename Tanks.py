@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #80
+# Pygame Tutorial #81
 
 pygame.init()
 
@@ -284,9 +284,20 @@ def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, random
             hit_y = int(display_height - ground_height)
             print("Impact: ",hit_x,hit_y)
             explosion(hit_x, hit_y)
-            if enemyTankX + 15 > hit_x > enemyTankX - 15:
-                print("HIT Enemy TANK!")
+            if enemyTankX + 10 > hit_x > enemyTankX - 10:
+                print("HIT Enemy TANK - Critical")
                 damage = 25
+            elif enemyTankX + 15 > hit_x > enemyTankX - 15:
+                print("HIT Enemy TANK - Hard")
+                damage = 18
+            elif enemyTankX + 25 > hit_x > enemyTankX - 25:
+                print("HIT Enemy TANK - Medium")
+                damage = 10
+            elif enemyTankX + 35 > hit_x > enemyTankX - 35:
+                print("HIT Enemy TANK - Glancing")
+                damage = 5
+            else:
+                print("Missed Enemy Tank")
 
             fire = False
             
@@ -381,9 +392,23 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
             hit_x = int((startingShell[0] * display_height - ground_height)/(startingShell[1]))
             hit_y = int(display_height - ground_height)
             print("Impact: ",hit_x,hit_y)
-            if ptankx + 15 > hit_x > ptankx - 15:
-                print("HIT PLAYER TANK!")
+
+            if ptankx + 10 > hit_x > ptankx - 10:
+                print("HIT Player TANK - Critical")
                 damage = 25
+            elif ptankx + 15 > hit_x > ptankx - 15:
+                print("HIT Player TANK - Hard")
+                damage = 18
+            elif ptankx + 25 > hit_x > ptankx - 25:
+                print("HIT Player TANK - Medium")
+                damage = 10
+            elif ptankx + 35 > hit_x > ptankx - 35:
+                print("HIT Player TANK - Glancing")
+                damage = 5
+            else:
+                print("Enemy Missed Player Tank")
+
+            
             explosion(hit_x, hit_y)
             fire = False
             
