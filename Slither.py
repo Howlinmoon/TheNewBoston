@@ -39,8 +39,8 @@ def gameLoop():
     lead_x_change = 0
     lead_y_change = 0
     
-    randAppleX = random.randrange(0, display_width - block_size)
-    randAppleY = random.randrange(0, display_height - block_size)
+    randAppleX = round(random.randrange(0, display_width - block_size)/ 10.0) * 10.0
+    randAppleY = round(random.randrange(0, display_height - block_size)/ 10.0) * 10.0
     
     clock = pygame.time.Clock()
 
@@ -92,11 +92,17 @@ def gameLoop():
                     
                     
         lead_x += lead_x_change
-        lead_y += lead_y_change        
+        lead_y += lead_y_change  
+        
+        
+              
         gameDisplay.fill(white)
         pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, block_size, block_size])
         pygame.draw.rect(gameDisplay, black, [lead_x,lead_y,block_size,block_size])
         pygame.display.update()
+        
+        if lead_x == randAppleX and lead_y == randAppleY:
+            print("om nom nom")
         
         clock.tick(fps)
         
