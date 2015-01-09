@@ -12,10 +12,12 @@ black = (0,0,0)
 
 display_width = 800
 display_height = 600
-block_size = 10
-fps = 15
+block_size = 20
+fps = 20
 
 font = pygame.font.SysFont(None, 25)
+#font = pygame.font.Font(None, 25)
+
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Slither')
 
@@ -48,8 +50,8 @@ def gameLoop():
     snakeLength = 1
     
     
-    randAppleX = round(random.randrange(0, display_width - block_size)/ 10.0) * 10.0
-    randAppleY = round(random.randrange(0, display_height - block_size)/ 10.0) * 10.0
+    randAppleX = round(random.randrange(0, display_width - block_size)) #/ 10.0) * 10.0
+    randAppleY = round(random.randrange(0, display_height - block_size)) #/ 10.0) * 10.0
     
     clock = pygame.time.Clock()
 
@@ -60,6 +62,12 @@ def gameLoop():
             message_to_screen("Game Over, press C to play again, or Q to quit", red)
             pygame.display.update()
             for event in pygame.event.get():
+                
+                if event.type == pygame.QUIT:
+                    print 'Quit event detected, quitting game'
+                    gameExit = True
+                    gameOver = False
+                    
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
                         gameExit = True
@@ -128,11 +136,14 @@ def gameLoop():
         snake(block_size, snakeList)
         pygame.display.update()
         
-        if lead_x >= randAppleX and lead_x <= randAppleX + AppleThickness:
-            if lead_y >= randAppleY and lead_y <= randAppleY + AppleThickness:
-                randAppleX = round(random.randrange(0, display_width - block_size)/ 10.0) * 10.0
-                randAppleY = round(random.randrange(0, display_height - block_size)/ 10.0) * 10.0
-                snakeLength +=1
+        # old crossover detection code
+#         if lead_x >= randAppleX and lead_x <= randAppleX + AppleThickness:
+#             if lead_y >= randAppleY and lead_y <= randAppleY + AppleThickness:
+#                 randAppleX = round(random.randrange(0, display_width - block_size)) #/ 10.0) * 10.0
+#                 randAppleY = round(random.randrange(0, display_height - block_size)) #/ 10.0) * 10.0
+#                 snakeLength +=1
+            
+        if lead_x > randAppleX and lead_x < randAppleX+AppleThickness:
             
         
         clock.tick(fps)
