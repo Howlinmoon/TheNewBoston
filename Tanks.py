@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #77
+# Pygame Tutorial #78
 
 pygame.init()
 
@@ -259,9 +259,10 @@ def explosion(x, y, size=50):
         
         
 # Fire the tank shell
-def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, randomHeight ):
+def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, randomHeight, enemyTankX, enemyTankY ):
     print "firing gun from x,y",xy
     fire = True
+    damage = 0
     
     startingShell = list(xy)
     while fire:
@@ -283,6 +284,10 @@ def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, random
             hit_y = int(display_height - ground_height)
             print("Impact: ",hit_x,hit_y)
             explosion(hit_x, hit_y)
+            if enemyTankX + 15 > hit_x > enemyTankX - 15:
+                print("HIT Enemy TANK!")
+                damage = 25
+
             fire = False
             
         check_x_1 = startingShell[0] <= xlocation + barrier_width
@@ -302,11 +307,12 @@ def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, random
         
         pygame.display.update()
         clock.tick(50)
-
+    return damage
+        
 # Fire the tank shell
 def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, randomHeight, ptankx, ptanky ):
     
-    
+    damage = 0
     currentPower = 1
     power_found = False
     
@@ -373,6 +379,9 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
             hit_x = int((startingShell[0] * display_height - ground_height)/(startingShell[1]))
             hit_y = int(display_height - ground_height)
             print("Impact: ",hit_x,hit_y)
+            if ptankx + 15 > hit_x > ptankx - 15:
+                print("HIT PLAYER TANK!")
+                damage = 25
             explosion(hit_x, hit_y)
             fire = False
             
@@ -392,8 +401,8 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
             
         
         pygame.display.update()
-        clock.tick(50)
-
+        clock.tick(60)
+    return damage
 
 
 def power(level):
@@ -437,14 +446,14 @@ def health_bars(player_health, enemy_health):
     elif player_health > 50:
         player_health_color = yellow
     else:
-         player_health_color = red
+        player_health_color = red
 
     if enemy_health > 75:
         enemy_health_color = green
     elif enemy_health > 50:
         enemy_health_color = yellow
     else:
-         enemy_health_color = red
+        enemy_health_color = red
 
     pygame.draw.rect(gameDisplay, player_health_color, (680,25, player_health, 25))
     pygame.draw.rect(gameDisplay, enemy_health_color,  (20,25, enemy_health, 25))
@@ -522,8 +531,11 @@ def gameLoop():
                 elif event.key == pygame.K_p:
                     pause()
                 elif event.key == pygame.K_SPACE:
-                    fireShell(gun,mainTankX,mainTankY,currentTurPos,fire_power, xlocation, barrier_width, randomHeight)
-                    e_fireShell(enemy_gun,enemyTankX,enemyTankY,7,50, xlocation, barrier_width, randomHeight,mainTankX,mainTankY)
+                    damage = fireShell(gun,mainTankX,mainTankY,currentTurPos,fire_power, xlocation, barrier_width, randomHeight, enemyTankX, enemyTankY)
+                    enemy_health -= damage
+                    damage = e_fireShell(enemy_gun,enemyTankX,enemyTankY,7,50, xlocation, barrier_width, randomHeight,mainTankX,mainTankY)
+                    player_health -= damage
+                    
                     
                 elif event.key == pygame.K_a:
                     power_change = -1
