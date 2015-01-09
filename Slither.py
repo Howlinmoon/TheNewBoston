@@ -29,11 +29,17 @@ while not gameExit:
         if event.type == pygame.QUIT:
             print 'Quit event detected, quitting game'
             gameExit = True
-        elif event.type == pygame.KEYDOWN:
+        
+        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 lead_x_change = -10
             elif event.key == pygame.K_RIGHT:
                 lead_x_change = 10
+        
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                lead_x_change = 0
+                
                 
     lead_x += lead_x_change        
     gameDisplay.fill(white)
