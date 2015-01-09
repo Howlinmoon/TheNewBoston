@@ -1,12 +1,12 @@
 import pygame
-# Slither, Pygame Tutorial #05
+
 pygame.init()
 
 white = (255,255,255)
 red = (255,0,0)
 green = (0,255,0)
 blue = (0,0.255)
-black = (255,255,255)
+black = (0,0,0)
 
 
 gameDisplay = pygame.display.set_mode((800,600))
@@ -26,6 +26,11 @@ while not gameExit:
             gameExit = True
             
     gameDisplay.fill(white)
+    pygame.draw.rect(gameDisplay, black, [400,300,10,10])
+
+    gameDisplay.fill(red, rect = [200,200, 50, 50])
+    
+    
     pygame.display.update()
     
     
@@ -35,4 +40,5 @@ while not gameExit:
 pygame.quit()
 
 quit()
+
 
