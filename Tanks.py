@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #76
+# Pygame Tutorial #77
 
 pygame.init()
 
@@ -269,7 +269,7 @@ def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, random
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        print (startingShell[0], startingShell[1])
+        #print (startingShell[0], startingShell[1])
         pygame.draw.circle(gameDisplay, red, (startingShell[0], startingShell[1]), 5 )
         
         startingShell[0] -= (12 - turPos)*2
@@ -277,7 +277,7 @@ def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, random
         startingShell[1] += int((((startingShell[0] - xy[0]) * 0.015/(gun_power/50.0))**2) - (turPos+turPos/(12 - turPos)))
 
         if startingShell[1] > display_height - ground_height:
-            print("Last shell: ", startingShell[0], startingShell[1])
+            #print("Last shell: ", startingShell[0], startingShell[1])
             # this may be incorrect - "display_height - ground_height" may need to be enclosed in ()
             hit_x = int((startingShell[0] * display_height - ground_height)/(startingShell[1]))
             hit_y = int(display_height - ground_height)
@@ -292,7 +292,7 @@ def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, random
         check_y_2 = startingShell[1] >= display_height - randomHeight
         
         if check_x_1 and check_x_2 and check_y_1 and check_y_2:
-            print("Last shell: ", startingShell[0], startingShell[1])
+            #print("Last shell: ", startingShell[0], startingShell[1])
             hit_x = int(startingShell[0])
             hit_y = int(startingShell[1])
             print("Impact: ",hit_x,hit_y)
@@ -360,7 +360,7 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        print (startingShell[0], startingShell[1])
+        #print (startingShell[0], startingShell[1])
         pygame.draw.circle(gameDisplay, red, (startingShell[0], startingShell[1]), 5 )
         
         startingShell[0] += (12 - turPos)*2
@@ -368,7 +368,7 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
         startingShell[1] += int((((startingShell[0] - xy[0]) * 0.015/(currentPower/50.0))**2) - (turPos+turPos/(12 - turPos)))
 
         if startingShell[1] > display_height - ground_height:
-            print("Last shell: ", startingShell[0], startingShell[1])
+            #print("Last shell: ", startingShell[0], startingShell[1])
             # this may be incorrect - "display_height - ground_height" may need to be enclosed in ()
             hit_x = int((startingShell[0] * display_height - ground_height)/(startingShell[1]))
             hit_y = int(display_height - ground_height)
@@ -431,6 +431,24 @@ def game_intro():
         pygame.display.update()
         clock.tick(15)
 
+def health_bars(player_health, enemy_health):
+    if player_health > 75:
+        player_health_color = green
+    elif player_health > 50:
+        player_health_color = yellow
+    else:
+         player_health_color = red
+
+    if enemy_health > 75:
+        enemy_health_color = green
+    elif enemy_health > 50:
+        enemy_health_color = yellow
+    else:
+         enemy_health_color = red
+
+    pygame.draw.rect(gameDisplay, player_health_color, (680,25, player_health, 25))
+    pygame.draw.rect(gameDisplay, enemy_health_color,  (20,25, enemy_health, 25))
+
 
 # main game loop
 def gameLoop():
@@ -438,6 +456,10 @@ def gameLoop():
     gameOver = False
     FPS = 15
     barrier_width = 50
+    
+    player_health = 100
+    enemy_health = 100
+    
     
     mainTankX = display_width * 0.9
     mainTankY = display_height * 0.9
@@ -530,6 +552,7 @@ def gameLoop():
         
         
         gameDisplay.fill(white)
+        health_bars(player_health, enemy_health)
         gun = tank(mainTankX, mainTankY, currentTurPos)
         # enemy elevation fixed at 7 for now
         enemy_gun = enemy_tank(enemyTankX, enemyTankY, 7 )
