@@ -1,6 +1,5 @@
 import pygame
-# Slither, Pygame Tutorial #04
-
+# Slither, Pygame Tutorial #05
 pygame.init()
 
 white = (255,255,255)
