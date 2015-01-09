@@ -51,6 +51,12 @@ while not gameExit:
 #        if event.type == pygame.KEYUP:
 #            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 #                lead_x_change = 0
+    
+    if lead_x >= 800 or lead_x <= 0 or lead_y >= 600 or lead_y <= 0:
+        print "You have left the game screen - the game is over!"
+        gameExit = True
+        
+    
                 
                 
     lead_x += lead_x_change
