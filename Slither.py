@@ -40,6 +40,18 @@ pygame.display.flip()
 def pause():
     paused = True
     print 'Game is Paused'
+    message_to_screen("Paused",
+                      black,
+                      -100,
+                      size="large")
+
+    message_to_screen("Press C to continue or Q to quit.",
+                      black,
+                      25,
+                      size="small")
+
+    pygame.display.update()
+
     while paused:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -54,18 +66,7 @@ def pause():
                     pygame.quit()
                     quit()
                     
-        gameDisplay.fill(white)
-        message_to_screen("Paused",
-                          black,
-                          -100,
-                          size="large")
-
-        message_to_screen("Press C to continue or Q to quit.",
-                          black,
-                          25,
-                          size="small")
-
-        pygame.display.update()
+        # gameDisplay.fill(white)
         clock.tick(5)
         
         
@@ -182,11 +183,12 @@ def gameLoop():
 
     while not gameExit:
         
-        while gameOver == True:
-            gameDisplay.fill(white)
+        if gameOver == True:
             message_to_screen("Game Over", red, -50, size = "large")
             message_to_screen("Press C to play again, or Q to quit", black, 50, size = "medium")
             pygame.display.update()
+        
+        while gameOver == True:
             for event in pygame.event.get():
                 
                 if event.type == pygame.QUIT:
