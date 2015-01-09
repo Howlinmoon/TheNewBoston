@@ -17,6 +17,7 @@ fps = 10
 AppleThickness = 30
 
 direction = "right"
+clock = pygame.time.Clock()
 
 smallfont = pygame.font.SysFont("comicsansms", 25)
 medfont = pygame.font.SysFont("comicsansms", 50)
@@ -31,6 +32,34 @@ pygame.display.set_caption('Slither')
 
 # update the entire surface
 pygame.display.flip()
+
+def game_intro():
+    intro = True
+    while intro:
+        gameDisplay.fill(white)
+        message_to_screen("Welcome to Slither",
+                          green,
+                          -100,
+                          "large")
+        message_to_screen("The objective of the game is to eat red apples",
+                          black,
+                          -30,
+                          "small")
+        message_to_screen("The more apples you eat, the longer you get",
+                          black,
+                          10,
+                          "small")
+        message_to_screen("If you run into yourself, or the edges, you die!",
+                          black,
+                          50,
+                          "small")
+        message_to_screen("Press C to play or Q to quit.",
+                          black,
+                          180,
+                          "small")
+        pygame.display.update()
+        clock.tick(15)
+
 
 # drawing the snake
 def snake(block_size, snakelist):
@@ -189,6 +218,7 @@ def gameLoop():
     
     quit()
 
+game_intro()
 gameLoop()
 
 
