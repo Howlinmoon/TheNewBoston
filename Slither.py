@@ -26,6 +26,7 @@ largefont = pygame.font.SysFont("comicsansms", 80)
 #font = pygame.font.Font(None, 25)
 
 img = pygame.image.load('SnakeHeadUp.png')
+appleimg = pygame.image.load("apple.png")
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Slither')
@@ -114,6 +115,8 @@ def message_to_screen(msg, color, y_displace=0, size = "small"):
 # main game loop
 def gameLoop():
     global direction
+    
+    direction = "right"
     gameExit = False
     gameOver = False
     
@@ -187,7 +190,9 @@ def gameLoop():
         lead_y += lead_y_change  
               
         gameDisplay.fill(white)
-        pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, AppleThickness, AppleThickness])
+        # old drop blocky apple routine
+        # pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, AppleThickness, AppleThickness])
+        gameDisplay.blit(appleimg, (randAppleX, randAppleY))
 
         snakeHead = []
         snakeHead.append(lead_x)
