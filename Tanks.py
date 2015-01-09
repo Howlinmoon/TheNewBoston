@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #79
+# Pygame Tutorial #80
 
 pygame.init()
 
@@ -371,7 +371,9 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
         
         startingShell[0] += (12 - turPos)*2
 
-        startingShell[1] += int((((startingShell[0] - xy[0]) * 0.015/(currentPower/50.0))**2) - (turPos+turPos/(12 - turPos)))
+        # throw a little randomness in to the enemies shot 90% to 110%
+        gun_power = random.randrange(int(currentPower*0.90), int(currentPower*1.10))
+        startingShell[1] += int((((startingShell[0] - xy[0]) * 0.015/(gun_power/50.0))**2) - (turPos+turPos/(12 - turPos)))
 
         if startingShell[1] > display_height - ground_height:
             #print("Last shell: ", startingShell[0], startingShell[1])
