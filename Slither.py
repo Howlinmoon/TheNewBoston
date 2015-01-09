@@ -36,6 +36,12 @@ pygame.display.set_icon(icon)
 # update the entire surface
 pygame.display.flip()
 
+def randAppleGen():
+    randAppleX = round(random.randrange(0, display_width - AppleThickness)) #/ 10.0) * 10.0
+    randAppleY = round(random.randrange(0, display_height - AppleThickness)) #/ 10.0) * 10.0
+    return randAppleX,randAppleY
+
+
 # every good game needs a title screen!
 def game_intro():
     intro = True
@@ -132,8 +138,7 @@ def gameLoop():
     snakeLength = 1
     
     # generate random co-ords for the "apple" target
-    randAppleX = round(random.randrange(0, display_width - AppleThickness)) #/ 10.0) * 10.0
-    randAppleY = round(random.randrange(0, display_height - AppleThickness)) #/ 10.0) * 10.0
+    randAppleX, randAppleY = randAppleGen()
     
     clock = pygame.time.Clock()
 
@@ -225,8 +230,7 @@ def gameLoop():
         # new crossover detection code
         if (lead_x > randAppleX and lead_x < randAppleX+AppleThickness) or (lead_x + block_size > randAppleX and lead_x + block_size < randAppleX + AppleThickness):
             if (lead_y > randAppleY and lead_y < randAppleY+AppleThickness) or (lead_y + block_size > randAppleY and lead_y + block_size < randAppleY + AppleThickness):
-                randAppleX = round(random.randrange(0, display_width - AppleThickness)) #/ 10.0) * 10.0
-                randAppleY = round(random.randrange(0, display_height - AppleThickness)) #/ 10.0) * 10.0
+                randAppleX, randAppleY = randAppleGen()
                 snakeLength +=1
         
         clock.tick(fps)
