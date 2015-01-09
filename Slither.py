@@ -36,6 +36,11 @@ pygame.display.set_icon(icon)
 # update the entire surface
 pygame.display.flip()
 
+def score(score):
+    text = smallfont.render("Score: "+str(score), True, black)
+    gameDisplay.blit(text, [0,0])
+
+
 def randAppleGen():
     randAppleX = round(random.randrange(0, display_width - AppleThickness)) #/ 10.0) * 10.0
     randAppleY = round(random.randrange(0, display_height - AppleThickness)) #/ 10.0) * 10.0
@@ -218,6 +223,10 @@ def gameLoop():
         
         
         snake(block_size, snakeList)
+        
+        # call our new fancy display score routine!
+        score(snakeLength - 1)
+        
         pygame.display.update()
         
         # old crossover detection code
