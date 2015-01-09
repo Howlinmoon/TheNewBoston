@@ -1,9 +1,14 @@
 import pygame
 # Slither, Pygame Tutorial #04
 
-x = pygame.init()
+pygame.init()
 
-print(x)
+white = (255,255,255)
+red = (255,0,0)
+green = (0,255,0)
+blue = (0,0.255)
+black = (255,255,255)
+
 
 gameDisplay = pygame.display.set_mode((800,600))
 pygame.display.set_caption('Slither')
@@ -11,8 +16,6 @@ pygame.display.set_caption('Slither')
 # update the entire surface
 pygame.display.flip()
 
-# update part of the surface (optionally) or the entire surface (default)
-pygame.display.update()
 
 gameExit = False
 
@@ -23,9 +26,11 @@ while not gameExit:
             print 'Quit event detected, quitting game'
             gameExit = True
             
-
+    gameDisplay.fill(white)
+    pygame.display.update()
     
-
+    
+    
 
 # unitialize
 pygame.quit()
