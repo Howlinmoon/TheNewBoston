@@ -36,6 +36,39 @@ pygame.display.set_icon(icon)
 # update the entire surface
 pygame.display.flip()
 
+# pause the game
+def pause():
+    paused = True
+    print 'Game is Paused'
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    paused = False
+                elif event.key == pygame.K_q:
+                    print 'quitting from the pause routine'
+                    pygame.quit()
+                    quit()
+                    
+        gameDisplay.fill(white)
+        message_to_screen("Paused",
+                          black,
+                          -100,
+                          size="large")
+
+        message_to_screen("Press C to continue or Q to quit.",
+                          black,
+                          25,
+                          size="small")
+
+        pygame.display.update()
+        clock.tick(5)
+        
+        
 def score(score):
     text = smallfont.render("Score: "+str(score), True, black)
     gameDisplay.blit(text, [0,0])
@@ -80,7 +113,7 @@ def game_intro():
                           black,
                           50,
                           "small")
-        message_to_screen("Press C to play or Q to quit.",
+        message_to_screen("Press C to play, P to pause or Q to quit.",
                           black,
                           180,
                           "small")
@@ -193,6 +226,9 @@ def gameLoop():
                     lead_y_change = block_size
                     lead_x_change = 0
                     direction = "down"
+                
+                elif event.key == pygame.K_p:
+                    pause()
         
         if lead_x >= display_width or lead_x <= 0 or lead_y >= display_height or lead_y <= 0:
             print "You have left the game screen - the game is over!"
