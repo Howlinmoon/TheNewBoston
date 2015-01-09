@@ -25,11 +25,13 @@ largefont = pygame.font.SysFont("comicsansms", 80)
 
 #font = pygame.font.Font(None, 25)
 
-img = pygame.image.load('SnakeHeadUp.png')
+img = pygame.image.load('SnakeHead.png')
 appleimg = pygame.image.load("apple.png")
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Slither')
+icon = pygame.image.load("apple.png")
+pygame.display.set_icon(icon)
 
 # update the entire surface
 pygame.display.flip()
@@ -130,8 +132,8 @@ def gameLoop():
     snakeLength = 1
     
     # generate random co-ords for the "apple" target
-    randAppleX = round(random.randrange(0, display_width - block_size)) #/ 10.0) * 10.0
-    randAppleY = round(random.randrange(0, display_height - block_size)) #/ 10.0) * 10.0
+    randAppleX = round(random.randrange(0, display_width - AppleThickness)) #/ 10.0) * 10.0
+    randAppleY = round(random.randrange(0, display_height - AppleThickness)) #/ 10.0) * 10.0
     
     clock = pygame.time.Clock()
 
@@ -223,8 +225,8 @@ def gameLoop():
         # new crossover detection code
         if (lead_x > randAppleX and lead_x < randAppleX+AppleThickness) or (lead_x + block_size > randAppleX and lead_x + block_size < randAppleX + AppleThickness):
             if (lead_y > randAppleY and lead_y < randAppleY+AppleThickness) or (lead_y + block_size > randAppleY and lead_y + block_size < randAppleY + AppleThickness):
-                randAppleX = round(random.randrange(0, display_width - block_size)) #/ 10.0) * 10.0
-                randAppleY = round(random.randrange(0, display_height - block_size)) #/ 10.0) * 10.0
+                randAppleX = round(random.randrange(0, display_width - AppleThickness)) #/ 10.0) * 10.0
+                randAppleY = round(random.randrange(0, display_height - AppleThickness)) #/ 10.0) * 10.0
                 snakeLength +=1
         
         clock.tick(fps)
