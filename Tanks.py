@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #74
+# Pygame Tutorial #75
 
 pygame.init()
 
@@ -148,15 +148,15 @@ def enemy_tank(x, y, turPos):
     x = int(x)
     y = int(y)
     
-    possibleTurrets = [(x-27, y -2),
-                       (x-26, y-5),
-                       (x-25, y-8),
-                       (x-23, y-12),
-                       (x-20, y-14),
-                       (x-18, y-15),
-                       (x-15, y-17),
-                       (x-13, y-19),
-                       (x-11, y-21)
+    possibleTurrets = [(x+27, y -2),
+                       (x+26, y-5),
+                       (x+25, y-8),
+                       (x+23, y-12),
+                       (x+20, y-14),
+                       (x+18, y-15),
+                       (x+15, y-17),
+                       (x+13, y-19),
+                       (x+11, y-21)
                        ]
     
     pygame.draw.circle(gameDisplay, black, (x,y), int(tankHeight/2))
@@ -259,7 +259,7 @@ def explosion(x, y, size=50):
         
         
 # Fire the tank shell
-def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, randomHeight ):
+def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, randomHeight, tank = "player" ):
     print "firing gun from x,y",xy
     fire = True
     
@@ -272,9 +272,13 @@ def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, random
         print (startingShell[0], startingShell[1])
         pygame.draw.circle(gameDisplay, red, (startingShell[0], startingShell[1]), 5 )
         
-        startingShell[0] -= (12 - turPos)*2
+        if tank == "enemy":
+            startingShell[0] += (12 - turPos)*2
+        else:
+            startingShell[0] -= (12 - turPos)*2
+
         startingShell[1] += int((((startingShell[0] - xy[0]) * 0.015/(gun_power/50.0))**2) - (turPos+turPos/(12 - turPos)))
-        
+
         if startingShell[1] > display_height - ground_height:
             print("Last shell: ", startingShell[0], startingShell[1])
             # this may be incorrect - "display_height - ground_height" may need to be enclosed in ()
@@ -362,8 +366,9 @@ def gameLoop():
     
     xlocation = (display_width/2) + random.randint(-0.2*display_width, 0.2*display_width)
     randomHeight = random.randrange(display_height * 0.1, display_height * 0.6)
-    # define gun for the initial call
+    # define guns for the initial call
     gun = tank(mainTankX, mainTankY, currentTurPos)
+    enemy_gun = enemy_tank(enemyTankX, enemyTankY, 7 )
 
     while not gameExit:
 
@@ -409,6 +414,7 @@ def gameLoop():
                     pause()
                 elif event.key == pygame.K_SPACE:
                     fireShell(gun,mainTankX,mainTankY,currentTurPos,fire_power, xlocation, barrier_width, randomHeight)
+                    fireShell(enemy_gun,enemyTankX,enemyTankY,7,50, xlocation, barrier_width, randomHeight, tank = "enemy")
                     
                 elif event.key == pygame.K_a:
                     power_change = -1
@@ -438,7 +444,8 @@ def gameLoop():
         
         gameDisplay.fill(white)
         gun = tank(mainTankX, mainTankY, currentTurPos)
-        enemy_gun = enemy_tank(enemyTankX, enemyTankY, currentTurPos )
+        # enemy elevation fixed at 7 for now
+        enemy_gun = enemy_tank(enemyTankX, enemyTankY, 7 )
 
         fire_power += power_change
         
