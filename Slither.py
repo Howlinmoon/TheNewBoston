@@ -33,9 +33,22 @@ pygame.display.set_caption('Slither')
 # update the entire surface
 pygame.display.flip()
 
+# every good game needs a title screen!
 def game_intro():
     intro = True
     while intro:
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    intro = False
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+                    
         gameDisplay.fill(white)
         message_to_screen("Welcome to Slither",
                           green,
