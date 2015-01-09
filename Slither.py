@@ -1,5 +1,5 @@
 import pygame
-
+import time
 pygame.init()
 
 white = (255,255,255)
@@ -12,6 +12,14 @@ display_width = 800
 display_height = 600
 block_size = 10
 fps = 15
+
+#font = pygame.font.SysFont(None, 25)
+font = pygame.font.Font(None, 20)
+
+def message_to_screen(msg, color):
+    screen_text = font.render(msg, True, color)
+    gameDisplay.blit(screen_text, [display_width/2, display_height/2])
+    pygame.display.update()
 
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
@@ -75,6 +83,8 @@ while not gameExit:
     
 
 # unitialize
+message_to_screen("You Lost", red)
+time.sleep(2)
 pygame.quit()
 
 quit()
