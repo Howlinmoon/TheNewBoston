@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #81
+# Pygame Tutorial #82
 
 pygame.init()
 
@@ -470,7 +470,7 @@ def game_intro():
 
 
 # all good things must come to an end
-def game_over(winOrLose):
+def game_over(winOrLoseOrTie):
     game_over = True
     while game_over:
         
@@ -480,11 +480,12 @@ def game_over(winOrLose):
                 quit()
                     
         gameDisplay.fill(white)
-        if winOrLose == "lose":
-            message_to_screen("Game Over",green,-100,"large")
+        message_to_screen("Game Over",green,-100,"large")
+        if winOrLoseOrTie == "lose":
             message_to_screen("You Lost!",black,-30,"small")
+        elif winOrLoseOrTie == "win":
+            message_to_screen("You Won!",black,-30,"small")
         else:
-            message_to_screen("Game Over",green,-100,"large")
             message_to_screen("You Won!",black,-30,"small")
             
         
@@ -588,6 +589,40 @@ def gameLoop():
                 elif event.key == pygame.K_SPACE:
                     damage = fireShell(gun,mainTankX,mainTankY,currentTurPos,fire_power, xlocation, barrier_width, randomHeight, enemyTankX, enemyTankY)
                     enemy_health -= damage
+                    
+                    possibleMovement = ['f','r']
+                    moveIndex = random.randrange(0,2)
+                    
+                    for x in range(random.randrange(0,10)):
+                        if display_width * 0.3 > enemyTankX > display_width * 0.03:
+                            if possibleMovement[moveIndex] == "f":
+                                enemyTankX +=5
+                            elif possibleMovement[moveIndex] == "r":
+                                enemyTankX -=5
+                            
+                            # This really needs to be placed in a function    
+                            gameDisplay.fill(white)
+                            health_bars(player_health, enemy_health)
+                            gun = tank(mainTankX, mainTankY, currentTurPos)
+                            # enemy elevation fixed at 7 for now
+                            enemy_gun = enemy_tank(enemyTankX, enemyTankY, 7 )
+                    
+                            fire_power += power_change
+                            
+                            # ensure we stay within 1-100
+                            if fire_power < 1:
+                                fire_power = 1
+                            elif fire_power > 100:
+                                fire_power = 100
+                                
+                            power(fire_power)
+                            
+                            barrier(xlocation, randomHeight, barrier_width)
+                            gameDisplay.fill(green, rect = [0, display_height-ground_height, display_width, ground_height])
+                            
+                            pygame.display.update()
+
+                    
                     damage = e_fireShell(enemy_gun,enemyTankX,enemyTankY,7,50, xlocation, barrier_width, randomHeight,mainTankX,mainTankY)
                     player_health -= damage
                     
@@ -640,11 +675,13 @@ def gameLoop():
         pygame.display.update()
         
         
+        if player_health < 1 and enemy_health < 1:
+            game_over("tie")
                 
-        if player_health < 1:
+        elif player_health < 1:
             game_over("lose")
             
-        if enemy_health < 1:
+        elif enemy_health < 1:
             game_over("win")
         
         clock.tick(FPS)
