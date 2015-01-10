@@ -25,7 +25,6 @@ display_width = 800
 display_height = 600
 block_size = 20
 fps = 10
-AppleThickness = 30
 
 clock = pygame.time.Clock()
 
@@ -236,7 +235,6 @@ def explosion(x, y, size=50):
                 pygame.quit()
                 quit()
                 
-        startPoint = x,y
         colorChoices = [red, light_red, yellow, light_yellow]
         magnitude = 1
         while magnitude < size:

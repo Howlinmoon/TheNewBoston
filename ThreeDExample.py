@@ -1,12 +1,12 @@
 import pygame
 import random
 
-# Pygame Tutorial #85
+# Pygame Tutorial #86
 
 pygame.init()
 
-display_width = 640
-display_height = 480
+display_width = 800
+display_height = 600
 
 white = (255,255,255)
 red = (200,0,0)
@@ -31,9 +31,35 @@ gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('3D Tutorial')
 
 
+def square(startPoint, fullsize):
+    # upper left corner
+    node_1 =[startPoint[0], startPoint[1]]
+    # upper right corner
+    node_2 =[startPoint[0]+fullsize, startPoint[1]]
+    # bottom left corner
+    node_3 =[startPoint[0], startPoint[1]+fullsize]
+    # bottom right corner
+    node_4 =[startPoint[0]+fullsize, startPoint[1]+fullsize]
+
+    # top line
+    pygame.draw.line(gameDisplay, white, (node_1), (node_2))
+    # bottom line
+    pygame.draw.line(gameDisplay, white, (node_3), (node_4))
+    # left line
+    pygame.draw.line(gameDisplay, white, (node_1), (node_3))
+    # right line
+    pygame.draw.line(gameDisplay, white, (node_2), (node_4))
+    
+    pygame.draw.circle(gameDisplay, light_green, node_1, 5)
+    pygame.draw.circle(gameDisplay, light_green, node_2, 5)
+    pygame.draw.circle(gameDisplay, light_green, node_3, 5)
+    pygame.draw.circle(gameDisplay, light_green, node_4, 5)
 
 # main game loop
 def gameLoop():
+    location = [300,200]
+    size = 200
+    current_move = 0
     FPS = 30
     
     while True:
@@ -45,20 +71,23 @@ def gameLoop():
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    pass
+                    current_move = -5
                     
                 elif event.key == pygame.K_RIGHT:
-                    pass
+                    current_move = 5
                 
                     
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    pass
+                    current_move = 0
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     pass
                     
         
-        gameDisplay.fill(green)
+        gameDisplay.fill(black)
+        location[0] += current_move
+        square(location, size)
+        pygame.display.update()
         clock.tick(FPS)
         
         
