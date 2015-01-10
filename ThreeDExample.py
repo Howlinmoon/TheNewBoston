@@ -1,7 +1,7 @@
 import pygame
 import random
 
-# Pygame Tutorial #88
+# Pygame Tutorial #89
 
 pygame.init()
 
@@ -30,8 +30,8 @@ largefont = pygame.font.SysFont("comicsansms", 80)
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('3D Tutorial')
 
-
-def square(startPoint, fullsize):
+# Drawing a 2.5d cube
+def cube(startPoint, fullsize):
     # upper left corner
     node_1 =[startPoint[0], startPoint[1]]
     # upper right corner
@@ -43,14 +43,20 @@ def square(startPoint, fullsize):
     
     offset = int(fullsize / 2)
    
+    x_mid = int(display_width / 2)
+    x_offset = -1 * int(startPoint[0] - x_mid)
+    if x_offset > 100:
+        x_offset = 100
+    elif x_offset < -100:
+        x_offset = -100
     # second square, upper left corner 
-    node_5 = [node_1[0]+offset, node_1[1]-offset]
+    node_5 = [node_1[0]+x_offset, node_1[1]-offset]
     # second square, upper right corner
-    node_6 = [node_2[0]+offset, node_2[1]-offset]
+    node_6 = [node_2[0]+x_offset, node_2[1]-offset]
     # second square, bottom left corner
-    node_7 = [node_3[0]+offset, node_3[1]-offset]
+    node_7 = [node_3[0]+x_offset, node_3[1]-offset]
     # second square, bottom right corner
-    node_8 = [node_4[0]+offset, node_4[1]-offset]
+    node_8 = [node_4[0]+x_offset, node_4[1]-offset]
 
     # first square
     # top line
@@ -100,6 +106,8 @@ def gameLoop():
     z_move = 0
     z_location = 11
     
+    y_move = 0
+    
     FPS = 30
     
     while True:
@@ -117,18 +125,28 @@ def gameLoop():
                     current_move = 5
 
                 elif event.key == pygame.K_UP:
-                    z_move = -5
-                    x_move = -1
+                    y_move = -5
+                    current_move = -1
                     
                 elif event.key == pygame.K_DOWN:
-                    z_move = 5
+                    y_move = 5
                     current_move = +1
                     
+                elif event.key == pygame.K_a:
+                    size -= 10
+                    if size < 0:
+                        size = 10
+                    
+                elif event.key == pygame.K_d:
+                    size += 10
+                    if size > 200:
+                        size = 200
+
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     current_move = 0
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    z_move = 0
+                    y_move = 0
                     current_move = 0
                     
         
@@ -137,11 +155,11 @@ def gameLoop():
         if z_location > 200:
             z_location = 0
 
-        print("z_move: ",z_move," z_location: ", z_location)
 
         current_size = int(size / (z_location * 0.1))
         location[0] += current_move
-        square(location, current_size)
+        location[1] += y_move
+        cube(location, current_size)
         pygame.display.update()
         clock.tick(FPS)
         
