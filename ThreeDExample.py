@@ -1,7 +1,7 @@
 import pygame
 import random
 
-# Pygame Tutorial #89
+# Pygame Tutorial #90
 
 pygame.init()
 
@@ -49,14 +49,23 @@ def cube(startPoint, fullsize):
         x_offset = 100
     elif x_offset < -100:
         x_offset = -100
+
+    y_mid = int(display_height / 2)
+    y_offset = -1 * int(startPoint[1] - y_mid)
+    if y_offset > 100:
+        y_offset = 100
+    elif y_offset < -100:
+        y_offset = -100
+
+    
     # second square, upper left corner 
-    node_5 = [node_1[0]+x_offset, node_1[1]-offset]
+    node_5 = [node_1[0]+x_offset, node_1[1]-y_offset]
     # second square, upper right corner
-    node_6 = [node_2[0]+x_offset, node_2[1]-offset]
+    node_6 = [node_2[0]+x_offset, node_2[1]-y_offset]
     # second square, bottom left corner
-    node_7 = [node_3[0]+x_offset, node_3[1]-offset]
+    node_7 = [node_3[0]+x_offset, node_3[1]-y_offset]
     # second square, bottom right corner
-    node_8 = [node_4[0]+x_offset, node_4[1]-offset]
+    node_8 = [node_4[0]+x_offset, node_4[1]-y_offset]
 
     # first square
     # top line
