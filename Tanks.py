@@ -1,8 +1,7 @@
-import time
 import pygame
 import random
 
-# Pygame Tutorial #83
+# Pygame Tutorial #84
 
 pygame.init()
 
@@ -47,23 +46,12 @@ tankHeight = 20
 turretWidth = 5
 wheelWidth = 5
 
-
-
-#font = pygame.font.Font(None, 25)
-
-#img = pygame.image.load('SnakeHead.png')
-#appleimg = pygame.image.load("apple.png")
-#icon = pygame.image.load("apple.png")
-#pygame.display.set_icon(icon)
-
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Tanks')
 
 
 # update the entire surface
 pygame.display.flip()
-
-
 
 # pause the game
 def pause():
@@ -87,14 +75,8 @@ def pause():
                     print 'quitting from the pause routine'
                     pygame.quit()
                     quit()
-                    
-        # gameDisplay.fill(white)
+
         clock.tick(5)
-        
-        
-def score(score):
-    text = smallfont.render("Score: "+str(score), True, black)
-    gameDisplay.blit(text, [0,0])
 
 # creating a text object for display
 def text_objects(text, color, size):
@@ -202,7 +184,7 @@ def game_controls():
 
         
         button("Play", 150,500, 100, 50, green, light_green, action = "play")
-        #button("Intro", 350,500, 100, 50, yellow, light_yellow, action = "intro")
+
         button("Quit", 550,500, 100, 50, red, light_red, action = "quit")
         
         pygame.display.update()
@@ -497,7 +479,7 @@ def game_over(winOrLoseOrTie):
         elif winOrLoseOrTie == "win":
             message_to_screen("You Won!",black,-30,"small")
         else:
-            message_to_screen("You Won!",black,-30,"small")
+            message_to_screen("TIE GAME!",black,-30,"small")
             
         
         button("Play Again", 150,500, 150, 50, green, light_green, action = "play")
@@ -549,8 +531,9 @@ def gameLoop():
     fire_power = 50
     power_change = 0
     
-    xlocation = (display_width/2) + random.randint(-0.2*display_width, 0.2*display_width)
-    randomHeight = random.randrange(display_height * 0.1, display_height * 0.6)
+    # The barrier
+    xlocation = (display_width/2) + random.randint(-0.1*display_width, 0.1*display_width)
+    randomHeight = random.randrange(display_height * 0.1, display_height * 0.5)
     # define guns for the initial call
     gun = tank(mainTankX, mainTankY, currentTurPos)
     enemy_gun = enemy_tank(enemyTankX, enemyTankY, 7 )
