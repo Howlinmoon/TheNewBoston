@@ -2,7 +2,7 @@ import time
 import pygame
 import random
 
-# Pygame Tutorial #82
+# Pygame Tutorial #83
 
 pygame.init()
 
@@ -33,6 +33,14 @@ clock = pygame.time.Clock()
 smallfont = pygame.font.SysFont("comicsansms", 25)
 medfont = pygame.font.SysFont("comicsansms", 50)
 largefont = pygame.font.SysFont("comicsansms", 80)
+
+fire_sound = pygame.mixer.Sound("tankShoot.wav")
+explosion_sound = pygame.mixer.Sound("explosion.wav")
+
+# if we have a good music filename - it goes here
+# pygame.mixer.music.load("filename.wav")
+# this continuously loops the music
+# pygame.mixer.music.play(-1)
 
 tankWidth = 40
 tankHeight = 20
@@ -238,6 +246,8 @@ def barrier(xlocation, randomHeight, barrier_width):
 
 def explosion(x, y, size=50):
     explode = True
+    pygame.mixer.Sound.play(explosion_sound)
+
     while explode:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -263,7 +273,7 @@ def fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, random
     print "firing gun from x,y",xy
     fire = True
     damage = 0
-    
+    pygame.mixer.Sound.play(fire_sound)
     startingShell = list(xy)
     while fire:
         for event in pygame.event.get():
@@ -341,7 +351,7 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-            pygame.draw.circle(gameDisplay, red, (startingShell[0], startingShell[1]), 5 )
+            #pygame.draw.circle(gameDisplay, red, (startingShell[0], startingShell[1]), 5 )
             
             startingShell[0] += (12 - turPos)*2
     
@@ -372,6 +382,7 @@ def e_fireShell(xy,tankx,tanky,turPos, gun_power, xlocation, barrier_width, rand
     print("Starting the real fire!")
     fire = True
     startingShell = list(xy)
+    pygame.mixer.Sound.play(fire_sound)
     while fire:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
