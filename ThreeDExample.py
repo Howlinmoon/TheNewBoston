@@ -1,7 +1,7 @@
 import pygame
 import random
 
-# Pygame Tutorial #86
+# Pygame Tutorial #87
 
 pygame.init()
 
@@ -60,6 +60,10 @@ def gameLoop():
     location = [300,200]
     size = 200
     current_move = 0
+    
+    z_move = 0
+    z_location = 1
+    
     FPS = 30
     
     while True:
@@ -75,18 +79,33 @@ def gameLoop():
                     
                 elif event.key == pygame.K_RIGHT:
                     current_move = 5
-                
+
+                elif event.key == pygame.K_UP:
+                    z_move = -5
+                    x_move = -1
+                    
+                elif event.key == pygame.K_DOWN:
+                    z_move = 5
+                    current_move = +1
                     
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     current_move = 0
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    pass
+                    z_move = 0
+                    current_move = 0
                     
         
         gameDisplay.fill(black)
+        z_location += z_move
+        if z_location > 200:
+            z_location = 0
+
+        print("z_move: ",z_move," z_location: ", z_location)
+
+        current_size = int(size / (z_location * 0.1))
         location[0] += current_move
-        square(location, size)
+        square(location, current_size)
         pygame.display.update()
         clock.tick(FPS)
         
