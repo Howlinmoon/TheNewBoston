@@ -3,7 +3,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-# PyGame Tutorial #97
+# PyGame Tutorial #98
 
 verticies = (
     (1, -1, -1),         
@@ -49,7 +49,7 @@ def main():
     
     glTranslatef(0.0, 0.0, -5.0)
     
-    glRotatef(20, 0, 0, 0)
+    glRotatef(50, 2, 0, 0)
     
     while True:
         
@@ -61,8 +61,13 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print (event)
                 print (event.button)
+                
+                if event.button == 4:
+                    glTranslate(0.0, 0.0, 1.0)
+                elif event.button == 5:
+                    glTranslate(0.0, 0.0, -1.0)
 
-        glRotatef(1, 3, 1, 1)
+        #glRotatef(1, 3, 1, 1)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         Draw_Cube()
         pygame.display.flip()
