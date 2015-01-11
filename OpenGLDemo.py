@@ -3,7 +3,9 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-# PyGame Tutorial #99
+# PyGame Tutorial #100
+
+# Nothing new to add for the final video in the series, bummer.
 
 verticies = (
     (1, -1, -1),         
