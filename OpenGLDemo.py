@@ -3,7 +3,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-# PyGame Tutorial #92
+# PyGame Tutorial #93
 
 verticies = (
     (1, -1, -1),         
@@ -31,3 +31,10 @@ edge = (
     (5, 7)
 )
 
+
+def Draw_Cube ():
+    glBegin(GL_LINES)
+    for edge in edges:
+        for vertex in edge:
+            glVertex3fv(verticies[vertex])
+    glEnd()
