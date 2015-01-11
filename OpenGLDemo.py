@@ -3,7 +3,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-# PyGame Tutorial #98
+# PyGame Tutorial #99
 
 verticies = (
     (1, -1, -1),         
@@ -31,13 +31,34 @@ edges = (
     (5, 7)
 )
 
+surfaces = (
+    (0,1,2,3),        
+    (3,2,7,6),        
+    (6,7,5,4),        
+    (4,5,1,0),        
+    (1,5,7,2),        
+    (4,0,3,6)        
+    )
+
 
 def Draw_Cube ():
+
     glBegin(GL_LINES)
     for edge in edges:
         for vertex in edge:
+            glColor3fv((0,1,1))
             glVertex3fv(verticies[vertex])
     glEnd()
+
+    
+    glBegin(GL_QUADS)
+    for surface in surfaces:
+        for vertex in surface:
+            glColor3fv((1,0,0))
+            glVertex3fv(verticies[vertex])
+    glEnd()
+
+
     
     
 def main():
@@ -45,7 +66,7 @@ def main():
     display = (800,600)
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
     
-    gluPerspective(45.0, (display[0]/display[1]), 1, 50.0)
+    gluPerspective(45.0, (display[0]/display[1]), 0.1, 50.0)
     
     glTranslatef(0.0, 0.0, -5.0)
     
@@ -67,7 +88,7 @@ def main():
                 elif event.button == 5:
                     glTranslate(0.0, 0.0, -1.0)
 
-        #glRotatef(1, 3, 1, 1)
+        glRotatef(1, 3, 1, 1)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         Draw_Cube()
         pygame.display.flip()
